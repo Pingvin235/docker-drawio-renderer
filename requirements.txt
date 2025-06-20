@@ -1,7 +1,11 @@
 # Python PIP Package Requirements
 # Run 'pip install -r requirements.txt'
 
-Flask
-flask-expects-json
-flask-redoc
-gunicorn
+# required by Flask, this exact version works
+werkzeug==2.1.2
+
+# requirements
+Flask==2.1.2
+flask-expects-json==1.7.0
+flask-redoc==0.2.1
+gunicorn==20.1.0
