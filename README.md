@@ -14,7 +14,7 @@ Due to the large number of dependencies, the container produced is very big; I w
 ## Running
 
 ```
-docker run -d -p 5000:5000 --shm-size=1g tomkludy/drawio-renderer:latest
+docker run -d -p 5000:5000 --shm-size=1g --name drawio-renderer bgerp/drawio-renderer
 ```
 
 Note the `--shm-size` parameter; this determines the maximum memory that can be used during diagram rendering.  If omitted, the default is 256mb.  If you hit out-of-memory errors (HTTP status code 413), try increasing the value of this parameter.
@@ -54,12 +54,25 @@ For full API documentation, start up the container and navigate to the `/docs` r
 
 ## Shout outs
 
+The `bgerp/drawio-renderer` was published after [the pull request](https://github.com/tomkludy/docker-drawio-renderer/pull/3) with update of Draw.IO version wasn't accepted to the original repository.
+
 This would not have been possible without [this post](https://github.com/jgraph/drawio-desktop/issues/127#issuecomment-520053181) from [Joel Martin](https://github.com/kanaka); he resolved most of the hard issues.
 
 The older versions (before v1.2) were much smaller but had a problem with some fonts, and stopped working when I tried to upgrade the versions of dependencies.  Luckily, [Erwan BOUSSE](https://gitlab.univ-nantes.fr/bousse-e) created [a version](https://gitlab.univ-nantes.fr/bousse-e/docker-drawio) of containerized drawio that works.  This builds on his approach and retains the simple REST API on top.
 
-## Building the container
+## Building and testing the container
 
 ```
-docker-compose build
+docker build . -t bgerp/drawio-renderer && docker run -it --rm -p 5000:5000 --shm-size=1g --name drawio-renderer bgerp/drawio-renderer
 ```
+
+In that interactive run the container's [API](#api) can be called, for example, from [PzdcDoc](https://pzdcdoc.org/demo/src/doc/demo.html#diagrams-drawio) projects.
+
+## Not in Use
+
+The following files are currently not in use:
+* `test_assets`
+* `docker-compose.test.yml`
+* `docker-compose.yml`
+* `requirements.test.txt`
+* `test_server.py`
